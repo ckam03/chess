@@ -1,38 +1,43 @@
-import React from "react";
-import Knight from "./Knight";
+import Knight from "./Piece/Knight";
 import Square from "./Square";
-import Piece from "./Piece";
+import Piece from "./Piece/Piece";
+import Pawn from "./Piece/Pawn";
+import { Pieces } from "./Piece/Pieces";
 
-interface IBoard {
-  piecePosition: position;
-}
+//check if square has piece
+//each piece needs to hold the location?
 
-function renderSquares(
-  [i, j]: position,
-  [piecePositionX, piecePositionY]: position
-) {
-  const color = (i + j) % 2 === 0;
-  const pieceIsHere = i === piecePositionX && j === piecePositionY;
-  const piece = pieceIsHere ? <Piece /> : null;
+const handleInitBoard = ([i, j]: position, notation: any) => {
+  //set the color of each square
+  const setColor: boolean = (i + j) % 2 === 0;
+  //iterate through the pieces array and check where each piece is placed
+  const piecesMap = Pieces.map((piece,index) => {
+
+    const pieceLocation: boolean = (i === piece.file && j === piece.rank);
+    const isPieceHere: any = pieceLocation ? piece.piece : null;
+    return isPieceHere;
+  })
+
   return (
-    <div className="w-20 h-20 flex items-center justify-center">
-      <Square color={color}>{piece}</Square>
+    <div className="flex items-center justify-center">
+      <Square color={setColor}>
+        {piecesMap}
+        <span className="hidden">{notation}</span>
+      </Square>
     </div>
   );
-}
+};
 
-export default function Board({ piecePosition }: IBoard) {
-  const numbers: string[] = ["1", "2", "3", "4", "5", "6", "7", "8"];
-  const letters: string[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  const squares = [];
-  for (let i = numbers.length - 1; i >= 0; i--) {
-    for (let j = 0; j < 8; j++) {
-      squares.push(renderSquares([i, j], piecePosition));
+const Board = () => {
+  const ranks: string[] = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const files: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"];
+  let squares: any[] = [];
+
+  for (let i = ranks.length - 1; i >= 0; i--) {
+    for (let j = 0; j < files.length; j++) {  
+        squares.push(handleInitBoard([i, j], files[j] + ranks[i]));      
     }
   }
-  return (
-    <div className="text-3xl w-[40rem] h-[40rem] border-2">
-      <div className="grid grid-cols-8 w-full h-full">{squares}</div>
-    </div>
-  );
-}
+  return <div className="grid grid-cols-8 w-full h-full">{squares}</div>;
+};
+export default Board;
