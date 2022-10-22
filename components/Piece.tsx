@@ -3,11 +3,10 @@ import Image from "next/image"
 import { Pieces } from "./Pieces"
 
 interface IPiece {
-  color: boolean
   type: any
 }
 
-const Piece = ({ color, type }: IPiece) => {
+const Piece = ({ type }: IPiece) => {
   return (
     <div>
       <Image src={type} alt="BK" width={64} height={64} />

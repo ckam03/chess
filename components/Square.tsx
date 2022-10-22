@@ -12,20 +12,21 @@ interface ISquare {
 
 enum squareColor {
   LIGHT = "bg-gray-100",
-  DARK = "bg-green-700"
+  DARK = "bg-green-700",
 }
 
 const Square: React.FC<ISquare> = (props) => {
   const [color, setColor] = useState<string>("bg-green-700")
   const [selected, setSelected] = useState<boolean>(false)
 
-  const handleSelected = () => {
-    
-  }
+  const handleSelected = () => {}
 
   return (
     <div
-      onClick={() => setSelected(!selected)}
+      onClick={() => {
+        setSelected(!selected)
+        console.log(props.children)
+      }}
       className={`w-24 h-24 border border-black flex items-center justify-center 
       ${props.squareColor}`}
     >
