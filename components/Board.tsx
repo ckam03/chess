@@ -1,6 +1,7 @@
 import Square from "./Square"
 import { Pieces } from "./Pieces"
 import Piece from "./Piece"
+import { StaticImageData } from "next/image"
 
 
 interface ISquare {
@@ -19,13 +20,13 @@ enum squareColor {
 }
 
 interface IBoard {
-  pieces: any[]
+  pieces: Map<position, StaticImageData>
   move?: any
 }
 
-const setPiece = ([j, i]: position) => {
+const setPiece = ([j,i]: position, pieces: Map<position, StaticImageData>) => {
   const pieceLocations: any = []
-  for (let [key, value] of Pieces) {
+  for (let [key, value] of pieces) {
     const pieceLocation: boolean = i === key[1] && j === key[0]
     const pieceIsHere = pieceLocation ? <Piece type={value} /> : null
     pieceLocations.push(pieceIsHere)
@@ -33,7 +34,7 @@ const setPiece = ([j, i]: position) => {
   return pieceLocations
 }
 
-const Board = () => {
+const Board = ({ pieces }: IBoard) => {
   let squares: ISquare[] = []
 
   for (let i = RANKS.length - 1; i >= 0; i--) {
@@ -42,7 +43,8 @@ const Board = () => {
         squares.push({
           color: setColor,
           location: [FILES[j], RANKS[i]],
-          piece: setPiece([FILES[j], RANKS[i]])
+          piece: setPiece([FILES[j], RANKS[i]], pieces)
+          //piece: setPiece([FILES[j], RANKS[i]])
         })
     }
   }
