@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Board from '../components/Board'
-import Game from '../components/Game'
+import Game from '../features/game/Game'
 
 const Home: NextPage = () => {
   return (

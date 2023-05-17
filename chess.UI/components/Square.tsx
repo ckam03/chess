@@ -1,12 +1,8 @@
-import Piece from "./Piece"
-import WhitePawn from "../images/WhitePawn.png"
-import { Pieces } from "./Pieces"
-import { useState } from "react"
-import PieceMove from "./PieceMove"
-
 interface ISquare {
   squareColor: squareColor
   location: position
+  isSelected: boolean
+  handleSelected: any
   children: React.ReactNode
 }
 
@@ -15,26 +11,16 @@ enum squareColor {
   DARK = "bg-green-700",
 }
 
-const Square: React.FC<ISquare> = (props) => {
-  const [color, setColor] = useState<string>("bg-green-700")
-  const [selected, setSelected] = useState<boolean>(false)
-
-  const handleSelected = () => {}
-
+export default function Square(props: ISquare) {
   return (
     <div
-      onClick={() => {
-        setSelected(!selected)
-        console.log(props.children)
-      }}
+      onClick={() => props.handleSelected(props.location)}
       className={`w-24 h-24 border border-black flex items-center justify-center 
-      ${props.squareColor}`}
+      ${props.isSelected ? "bg-yellow-500" : props.squareColor}`}
     >
       <span className="hidden">{props.location}</span>
-      {selected && <PieceMove />}
-      <div>{props.children}</div>
+      <span>{props.children}</span>
     </div>
   )
 }
 
-export default Square
